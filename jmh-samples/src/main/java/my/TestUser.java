@@ -1,3 +1,5 @@
+package my;
+
 /**
  * function description.
  *
@@ -120,7 +122,7 @@ public class TestUser {
 
     @Override
     public String toString() {
-        return "TestUser{" +
+        return "my.TestUser{" +
                 "userId='" + userId + '\'' +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
