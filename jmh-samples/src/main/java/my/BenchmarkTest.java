@@ -1,5 +1,12 @@
-import com.fasterxml.jackson.core.JsonProcessingException;
+package my;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.openjdk.jmh.annotations.*;
+import org.openjdk.jmh.results.format.ResultFormatType;
+import org.openjdk.jmh.runner.Runner;
+import org.openjdk.jmh.runner.RunnerException;
+import org.openjdk.jmh.runner.options.Options;
+import org.openjdk.jmh.runner.options.OptionsBuilder;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -8,7 +15,7 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
+import java.util.concurrent.TimeUnit;
 
 /**
  * function description.
@@ -24,12 +31,20 @@ import java.util.stream.Collectors;
  * @author guanrongzhi
  * @version 1.0.0
  */
+@Warmup(iterations = 5, time = 1)
+@Measurement(iterations = 5, time = 1)
+@BenchmarkMode(Mode.Throughput)
+@OutputTimeUnit(TimeUnit.MILLISECONDS)
+@State(Scope.Thread)
+@Fork(1)
+@Threads(2)
 public class BenchmarkTest {
     public static ObjectMapper objectMapper = new ObjectMapper();
 
     /**
      * 文本读入、输出
      */
+    @Benchmark
     public static void fileHandle() {
         //文本读入
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get("/Users/guanrongzhi/code/jmh/results/input/a.txt")))); BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(Files.newOutputStream(Paths.get("/Users/guanrongzhi/code/jmh/results/output/a-output.txt")), StandardCharsets.UTF_8))) {
@@ -47,6 +62,7 @@ public class BenchmarkTest {
     /**
      * String处理
      */
+    @Benchmark
     public static void stringHandle() {
         //文本读入
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get("/Users/guanrongzhi/aspSVN/咪咕NET/上线操作手册/动漫20220705业务代码清理/计费点清理报错20220126csv.csv"))))) {
@@ -73,6 +89,7 @@ public class BenchmarkTest {
     /**
      * json序列化
      */
+    @Benchmark
     public static void jsonSerialize() {
 //        try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(Files.newOutputStream(Paths.get("/Users/guanrongzhi/code/jmh/results/input/json-input.txt")), StandardCharsets.UTF_8))) {
         try {
@@ -105,6 +122,7 @@ public class BenchmarkTest {
     /**
      * json反序列化
      */
+    @Benchmark
     public static void jsonDeserialize() {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get("/Users/guanrongzhi/code/jmh/results/input/json-input.txt"))))) {
             String a;
@@ -122,12 +140,13 @@ public class BenchmarkTest {
     /**
      * stream
      */
+    @Benchmark
     public static void streamTest() {
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get("/Users/guanrongzhi/code/jmh/results/input/a.txt")))); BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(Files.newOutputStream(Paths.get("/Users/guanrongzhi/code/jmh/results/output/a-output.txt")), StandardCharsets.UTF_8));) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get("/Users/guanrongzhi/code/jmh/results/input/a.txt")))); BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(Files.newOutputStream(Paths.get("/Users/guanrongzhi/code/jmh/results/output/a-output.txt")), StandardCharsets.UTF_8))) {
             String a;
             while ((a = reader.readLine()) != null) {
                 List<String> strings = Arrays.asList(a.split(" "));
-                List<String> strings1 = strings.stream().filter(s -> s.length() > 8).collect(Collectors.toList());
+                List<String> strings1 = strings.stream().filter(s -> s.length() > 8).toList();
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -135,7 +154,12 @@ public class BenchmarkTest {
     }
 
 
-    public static void main(String[] args) {
-        jsonDeserialize();
+    public static void main(String[] args) throws RunnerException {
+        Options options = new OptionsBuilder()
+                .include(BenchmarkTest.class.getSimpleName())
+                .resultFormat(ResultFormatType.JSON)
+                .build();
+        new Runner(options).run();
+
     }
 }
