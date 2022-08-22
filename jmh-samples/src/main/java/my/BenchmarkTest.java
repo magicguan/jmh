@@ -36,8 +36,8 @@ import java.util.concurrent.TimeUnit;
 @BenchmarkMode(Mode.Throughput)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
 @State(Scope.Thread)
-@Fork(value = 1, jvmArgs = "-Xms1g -Xmx1g -XX:MaxMetaspaceSize=128m -XX:+UseG1GC -XX:MaxGCPauseMillis=200")
-@Threads(2)
+@Fork(value = 1, jvmArgs = {"-Xms1G","-Xmx1G","-XX:MaxMetaspaceSize=128m","-XX:+UseG1GC","-XX:MaxGCPauseMillis=200"})
+@Threads(1)
 public class BenchmarkTest {
     public static ObjectMapper objectMapper = new ObjectMapper();
 
