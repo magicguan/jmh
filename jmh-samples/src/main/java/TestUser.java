@@ -117,4 +117,19 @@ public class TestUser {
     public void setSex(String sex) {
         this.sex = sex;
     }
+
+    @Override
+    public String toString() {
+        return "TestUser{" +
+                "userId='" + userId + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", tel='" + tel + '\'' +
+                ", email='" + email + '\'' +
+                ", avatar='" + avatar + '\'' +
+                ", isAuth=" + isAuth +
+                ", age=" + age +
+                ", sex='" + sex + '\'' +
+                '}';
+    }
 }
