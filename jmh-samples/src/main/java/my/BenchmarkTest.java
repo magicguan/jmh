@@ -16,6 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * function description.
@@ -36,8 +37,8 @@ import java.util.concurrent.TimeUnit;
 @BenchmarkMode(Mode.Throughput)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
 @State(Scope.Thread)
-@Fork(value = 1,jvmArgs = "-Xms1g -Xmx1g -XX:MaxMetaspaceSize=128m -XX:+UseG1GC -XX:MaxGCPauseMillis=200")
-@Threads(2)
+@Fork(value = 1, jvmArgs = {"-Xms1G","-Xmx1G","-XX:MaxMetaspaceSize=128m","-XX:+UseG1GC","-XX:MaxGCPauseMillis=200"})
+@Threads(1)
 public class BenchmarkTest {
     public static ObjectMapper objectMapper = new ObjectMapper();
 
@@ -146,7 +147,7 @@ public class BenchmarkTest {
             String a;
             while ((a = reader.readLine()) != null) {
                 List<String> strings = Arrays.asList(a.split(" "));
-                List<String> strings1 = strings.stream().filter(s -> s.length() > 8).toList();
+                List<String> strings1 = strings.stream().filter(s -> s.length() > 8).collect(Collectors.toList());
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
