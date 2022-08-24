@@ -46,6 +46,7 @@ public class BenchmarkTest {
      * 文本读入、输出
      */
     @Benchmark
+    @OutputTimeUnit(TimeUnit.SECONDS)
     public static void fileHandle() {
         //文本读入
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get("/Users/guanrongzhi/code/jmh/results/input/a.txt")))); BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(Files.newOutputStream(Paths.get("/Users/guanrongzhi/code/jmh/results/output/a-output.txt")), StandardCharsets.UTF_8))) {
@@ -64,6 +65,7 @@ public class BenchmarkTest {
      * String处理
      */
     @Benchmark
+    @OutputTimeUnit(TimeUnit.SECONDS)
     public static void stringHandle() {
         //文本读入
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get("/Users/guanrongzhi/aspSVN/咪咕NET/上线操作手册/动漫20220705业务代码清理/计费点清理报错20220126csv.csv"))))) {
@@ -142,6 +144,7 @@ public class BenchmarkTest {
      * stream
      */
     @Benchmark
+    @OutputTimeUnit(TimeUnit.SECONDS)
     public static void streamTest() {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get("/Users/guanrongzhi/code/jmh/results/input/a.txt")))); BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(Files.newOutputStream(Paths.get("/Users/guanrongzhi/code/jmh/results/output/a-output.txt")), StandardCharsets.UTF_8))) {
             String a;
