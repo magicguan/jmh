@@ -45,8 +45,8 @@ public class BenchmarkTest {
     /**
      * 文本读入、输出
      */
-    @Benchmark
-    @OutputTimeUnit(TimeUnit.SECONDS)
+//    @Benchmark
+//    @OutputTimeUnit(TimeUnit.SECONDS)
     public static void fileHandle() {
         //文本读入
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get("/Users/guanrongzhi/code/jmh/results/input/a.txt")))); BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(Files.newOutputStream(Paths.get("/Users/guanrongzhi/code/jmh/results/output/a-output.txt")), StandardCharsets.UTF_8))) {
@@ -64,8 +64,8 @@ public class BenchmarkTest {
     /**
      * String处理
      */
-    @Benchmark
-    @OutputTimeUnit(TimeUnit.SECONDS)
+//    @Benchmark
+//    @OutputTimeUnit(TimeUnit.SECONDS)
     public static void stringHandle() {
         String a = """
                 William Shakespeare (bapt. 26 April 1564 – 23 April 1616)[a] was an English playwright, poet and actor. He is widely
@@ -142,7 +142,7 @@ public class BenchmarkTest {
     /**
      * json序列化
      */
-    @Benchmark
+//    @Benchmark
     public static void jsonSerialize() {
 //        try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(Files.newOutputStream(Paths.get("/Users/guanrongzhi/code/jmh/results/input/json-input.txt")), StandardCharsets.UTF_8))) {
         try {
@@ -175,7 +175,7 @@ public class BenchmarkTest {
     /**
      * json反序列化
      */
-    @Benchmark
+//    @Benchmark
     public static void jsonDeserialize() {
         String userId = UUID.randomUUID().toString().replaceAll("-", "");
         String username = userId.substring(15, (int) (Math.random() * 10 + 15));
@@ -221,7 +221,7 @@ public class BenchmarkTest {
     /**
      * stream
      */
-    @Benchmark
+//    @Benchmark
     public static void streamTest() {
         String a = """
                 William Shakespeare (bapt. 26 April 1564 – 23 April 1616)[a] was an English playwright, poet and actor. He is widely
